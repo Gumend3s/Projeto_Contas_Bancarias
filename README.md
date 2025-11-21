@@ -2,7 +2,7 @@
 
 **1. ESTRUTURAÇÃO DO SISTEMA**
 
-O sistema foi desenvolvido em Java seguindo uma arquitetura modular para separar a lógica de negócios da interface com o usuário. O código foi organizado em três pacotes principais:
+O sistema foi desenvolvido em Java seguindo uma arquitetura modular para separar a lógica de negócios da interface com o usuário:
 
   - **Pacote Model (Modelo):** Contém as classes que representam os dados.
 
