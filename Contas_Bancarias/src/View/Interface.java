@@ -96,7 +96,7 @@ public class Interface {
                     }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Erro: Por favor, digite apenas números nos campos de valor/ID.");
-                } catch (SaldoInsuficienteException | DadosInvalidosException e) {
+                } catch (SaldoInsuficienteException | DadosInvalidosException | ContaInexistenteException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage());
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());

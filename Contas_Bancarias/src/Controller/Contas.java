@@ -27,30 +27,31 @@ public class Contas {
         // Retorna o ID no console para facilitar o teste
     }
 
-    public List<Movimentacao> getMovimentacoes(int idConta) {
-        Conta cc = buscarContaPorId(idConta);
-        if (cc != null) {
-            return cc.getMovimentacoes();
+    public List<Movimentacao> getMovimentacoes(int idConta) throws ContaInexistenteException  {
+        Conta c = buscarContaPorId(idConta);
+        if (c != null) {
+            return c.getMovimentacoes();
+        } else {
+            throw new ContaInexistenteException();
         }
-        return new ArrayList<>(); // Retorna lista vazia se não achar conta
     }
 
     public void realizarMovimentacao(int idConta, int tipo, double valor, String descricao) throws SaldoInsuficienteException {
-        Conta cc = buscarContaPorId(idConta);
-        if (cc == null) return;
+        Conta c = buscarContaPorId(idConta);
+        if (c == null) return;
 
         if (tipo == 0) { // Depósito
-            cc.setSaldo(cc.getSaldo() + valor);
+            c.setSaldo(c.getSaldo() + valor);
 
         } else if (tipo == 1) { // Saque
-            if (cc.getSaldo() >= valor) {
-                cc.setSaldo(cc.getSaldo() - valor);
+            if (c.getSaldo() >= valor) {
+                c.setSaldo(c.getSaldo() - valor);
             } else {
                 throw new SaldoInsuficienteException();
             }
         }
 
-        cc.addMovimentacao(new Movimentacao(new Date(), valor, descricao, tipo));
+        c.addMovimentacao(new Movimentacao(new Date(), valor, descricao, tipo));
     }
 
     public void realizarTransferencia(int idOrigem, int idDestino, double valor, String descricao) throws DadosInvalidosException {
@@ -68,15 +69,17 @@ public class Contas {
         }
     }
 
-    public double consultarSaldo(int idConta) {
-        Conta cc = buscarContaPorId(idConta);
-        return (cc != null) ? cc.getSaldo() : -1;
+    public double consultarSaldo(int idConta) throws ContaInexistenteException {
+        Conta c = buscarContaPorId(idConta);
+        if (c == null) throw new ContaInexistenteException();
+        return c.getSaldo() ;
     }
 
-    public void fecharConta(int idConta) {
-        Conta cc = buscarContaPorId(idConta);
-        if (cc != null && cc.getSaldo() == 0) {
-            contas.remove(cc);
+    public void fecharConta(int idConta) throws ContaInexistenteException {
+        Conta c = buscarContaPorId(idConta);
+        if (c == null) throw new ContaInexistenteException();
+        if (c.getSaldo() == 0) {
+            contas.remove(c);
         }
     }
 }
