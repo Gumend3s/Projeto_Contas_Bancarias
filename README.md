@@ -1,46 +1,79 @@
-**RELATÓRIO TÉCNICO: SISTEMA BANCÁRIO**
+# RELATÓRIO TÉCNICO: SISTEMA BANCÁRIO SIMULADO EM JAVA
 
-**1. ESTRUTURAÇÃO DO SISTEMA**
+## 1. ESTRUTURAÇÃO DO SISTEMA
 
-O sistema foi desenvolvido em Java seguindo uma arquitetura modular para separar a lógica de negócios da interface com o usuário:
+O sistema foi desenvolvido em Java, utilizando uma arquitetura modular para separar a lógica de negócios da interface com o usuário. A organização do sistema é feita através de pacotes:
 
-  - **Pacote Model (Modelo):** Contém as classes que representam os dados.
+- **Pacote Model (Modelo):** Contém as classes responsáveis pelos dados.
 
-      - Classe 'Conta': Responsável por armazenar o estado de cada conta (ID, nome, CPF, saldo e lista de movimentações).
-      - Classe 'Movimentacao': Representa o registro imutável de uma transação (data, valor, descrição e tipo).
+    - **Classe 'Conta':** Responsável por armazenar o estado de cada conta (ID, nome, CPF, saldo e lista de movimentações).
+    - **Classe 'Movimentacao':** Representa o registro imutável de uma transação (data, valor, descrição e tipo).
 
-  - **Pacote Controller (Controlador):** Contém a classe 'Contas'.
+- **Pacote Controller (Controlador):** Contém a classe **'Contas'**.
 
-      - Esta classe gerencia a lista de contas em memória e contém toda a regra de negócio (validações de saldo, geração de IDs sequenciais e execução de transferências). Ela impede que a interface manipule os dados diretamente.
+    - A classe **'Contas'** gerencia a lista de contas em memória e contém toda a lógica de negócios (validações de saldo, geração de IDs sequenciais e execução de transações). Ela impede que a interface manipule os dados diretamente, mantendo a separação de responsabilidades.
 
-  - **Pacote View (Visualização):** Contém a classe 'Interface'.
+- **Pacote View (Visualização):** Contém a classe **'Interface'**.
 
-      - Responsável exclusivamente pela interação com o usuário (menu de opções e exibição de mensagens), delegando as operações para o Controller.
-
------
-
-**2. PADRÕES DE PROJETO APLICADOS**
-
-Para garantir a organização e a extensibilidade do código, foram utilizados três padrões de projeto principais:
-
-**A. MVC (Model-View-Controller)**
-Utilizado para estruturar a arquitetura do software. A lógica de negócio (Controller) está totalmente desacoplada da entrada/saída de dados (View). Isso permite, por exemplo, que a interface gráfica seja substituída por uma interface web ou mobile no futuro sem necessidade de alterar as regras de negócio.
-
-**B. Factory Method (Método Fábrica)**
-Aplicado no método 'criarConta' dentro do Controller. Em vez de permitir que a classe Interface instancie objetos 'new Conta()' diretamente, centralizamos a criação no Controller. Isso garante que toda nova conta receba automaticamente um ID único e tenha suas listas internas inicializadas corretamente antes de ser usada.
-
-**C. Singleton (Gerenciador de Estado Único)**
-Embora implementado de forma simplificada através de atributos estáticos ('static List\<Conta\>'), o Controller atua como um Singleton. Isso assegura que exista apenas uma única lista de contas ativa na memória durante a execução do programa, garantindo que todas as operações acessem o mesmo conjunto de dados, independentemente de onde sejam chamadas.
+    - A classe **'Interface'** é responsável exclusivamente pela interação com o usuário (menu de opções e exibição de mensagens via `JOptionPane`). Ela delega as operações para o Controller, garantindo que a lógica de negócios seja isolada.
 
 -----
 
-**3. ROTEIRO DE TESTES**
+## 2. PADRÕES DE PROJETO APLICADOS
 
-O sistema possui uma interface de linha de comando que permite testar todas as funcionalidades. Sugere-se o seguinte fluxo de teste:
+Para garantir a organização, manutenibilidade e a extensibilidade do código, foram aplicados os seguintes padrões de projeto:
 
-1.  **Criação:** Execute a opção "Abrir conta", informe Nome e CPF. O sistema deve confirmar e exibir o ID gerado (ex: ID 1).
-2.  **Depósito:** Selecione "Depositar", informe o ID 1 e um valor (ex: 1000.00). Verifique se o saldo atualizou.
-3.  **Validação de Saque:** Tente realizar um "Sacar" com valor superior ao saldo (ex: 2000.00). O sistema deve exibir erro de saldo insuficiente. Em seguida, faça um saque válido.
-4.  **Transferência:** Abra uma segunda conta (ID 2). Use a opção "Transferir" para enviar valores da Conta 1 para a Conta 2 e valide os saldos de ambas.
-5.  **Extrato:** Utilize a opção "Extrato" no ID 1 para visualizar o histórico cronológico de depósitos, saques e transferências.
-6.  **Fechamento:** Tente usar "Fechar conta" em uma conta com saldo positivo (o sistema deve bloquear). Zere o saldo via saque e tente fechar novamente (o sistema deve permitir).
+### **A. MVC (Model-View-Controller)**
+
+Utilizado para estruturar a arquitetura do software. A lógica de negócios (Controller) está desacoplada da entrada/saída de dados (View). Isso permite que a interface gráfica seja facilmente substituída por outras interfaces (web ou mobile), sem a necessidade de modificar as regras de negócio.
+
+### **B. Factory Method (Método Fábrica)**
+
+Aplicado no método **'criarConta'** dentro do Controller. A criação de novos objetos **'Conta'** é centralizada no Controller, garantindo que toda nova conta receba automaticamente um ID único e tenha suas listas internas corretamente inicializadas antes de ser usada.
+
+### **C. Singleton (Gerenciador de Estado Único)**
+
+O Controller atua como um Singleton, implementado de forma simplificada com um atributo estático (`private static List<Conta> contas`). Isso garante que apenas uma lista de contas esteja ativa na memória durante toda a execução do programa, assegurando que todas as operações acessem o mesmo conjunto de dados.
+
+-----
+
+## 3. ROTEIRO DE TESTES
+
+O sistema pode ser testado através de sua interface gráfica (via `JOptionPane`) para validar todas as funcionalidades e regras de negócio. O fluxo de testes sugerido é o seguinte:
+
+1. **Criação de Conta:**
+    - Execute a opção **"Abrir conta"**, informe o **Nome** e **CPF**.
+    - O sistema deve confirmar e exibir o **ID gerado** (ex: ID 1).
+
+2. **Depósito:**
+    - Selecione a opção **"Depositar"**, informe o **ID da conta** (ex: ID 1) e um valor (ex: 1000.00).
+    - O sistema deve atualizar o saldo da conta e exibir a confirmação.
+
+3. **Validação de Saque (Inválido):**
+    - Tente realizar um **"Saque"** com um valor superior ao saldo (ex: 2000.00).
+    - O sistema deve exibir um erro de **saldo insuficiente**.
+
+4. **Saque (Válido):**
+    - Após o erro de saque, tente realizar um **"Saque"** com um valor válido.
+    - O saldo deve ser atualizado corretamente, e a movimentação registrada.
+
+5. **Transferência:**
+    - Abra uma **segunda conta** (ex: ID 2).
+    - Use a opção **"Transferir"** para enviar valores da Conta 1 para a Conta 2.
+    - Valide se os saldos de ambas as contas foram atualizados corretamente e se as movimentações foram registradas.
+
+6. **Extrato:**
+    - Utilize a opção **"Extrato"** para visualizar o histórico cronológico das transações realizadas (depósitos, saques e transferências) na Conta 1.
+
+7. **Fechamento de Conta (Inválido):**
+    - Tente usar a opção **"Fechar conta"** em uma conta com saldo positivo.
+    - O sistema deve **bloquear o fechamento** e exibir um erro informando que o saldo precisa ser zero para o fechamento.
+
+8. **Fechamento de Conta (Válido):**
+    - Zere o saldo da conta via **Saque**.
+    - Tente usar a opção **"Fechar conta"** novamente.
+    - O sistema deve **permitir o fechamento** e remover a conta do sistema.
+
+-----
+
+Esse formato está mais alinhado com o exemplo que você forneceu. Se precisar de mais algum ajuste ou modificação, é só avisar!
