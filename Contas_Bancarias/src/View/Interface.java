@@ -1,12 +1,10 @@
 package View;
 
-import Controller.ContaInexistenteException;
-import Controller.Contas;
+import Controller.*;
+
 import javax.swing.*;
 import java.util.List;
 
-import Controller.DadosInvalidosException;
-import Controller.SaldoInsuficienteException;
 import Model.Movimentacao;
 
 public class Interface {
@@ -40,21 +38,24 @@ public class Interface {
                             int id = Integer.parseInt(JOptionPane.showInputDialog("ID da conta:"));
                             double valor = Double.parseDouble(JOptionPane.showInputDialog("Valor:"));
                             String desc = JOptionPane.showInputDialog("Descrição:");
-                            contas.realizarMovimentacao(id, 0, valor, desc);
+                            String data = JOptionPane.showInputDialog("Data(DD/MM/AAAA): ");
+                            contas.realizarMovimentacao(id, 0, valor, desc, data);
                             JOptionPane.showMessageDialog(null, "Operação processada.");
                         }
                         case "Sacar" -> {
                             int id = Integer.parseInt(JOptionPane.showInputDialog("ID da conta:"));
                             double valor = Double.parseDouble(JOptionPane.showInputDialog("Valor:"));
                             String desc = JOptionPane.showInputDialog("Descrição:");
-                            contas.realizarMovimentacao(id, 1, valor, desc);
+                            String data = JOptionPane.showInputDialog("Data(DD/MM/AAAA): ");
+                            contas.realizarMovimentacao(id, 1, valor, desc, data);
                             JOptionPane.showMessageDialog(null, "Operação processada.");
                         }
                         case "Transferir" -> {
                             int idOrig = Integer.parseInt(JOptionPane.showInputDialog("ID Conta Origem:"));
                             int idDest = Integer.parseInt(JOptionPane.showInputDialog("ID Conta Destino:"));
                             double valor = Double.parseDouble(JOptionPane.showInputDialog("Valor:"));
-                            contas.realizarTransferencia(idOrig, idDest, valor, "Transferência via App");
+                            String data = JOptionPane.showInputDialog("Data(DD/MM/AAAA): ");
+                            contas.realizarTransferencia(idOrig, idDest, valor, "Transferência via App", data);
                             JOptionPane.showMessageDialog(null, "Transferência processada.");
                         }
                         case "Saldo" -> {
@@ -96,7 +97,8 @@ public class Interface {
                     }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(null, "Erro: Por favor, digite apenas números nos campos de valor/ID.");
-                } catch (SaldoInsuficienteException | DadosInvalidosException | ContaInexistenteException e) {
+                } catch (SaldoInsuficienteException | DadosInvalidosException | ContaInexistenteException |
+                         SaldoDiferenteZeroException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage());
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
