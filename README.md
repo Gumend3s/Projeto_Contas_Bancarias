@@ -21,9 +21,9 @@ O sistema foi desenvolvido em Java, utilizando uma arquitetura modular para sepa
 
 ## 2. PADRÕES DE PROJETO APLICADOS
 
-Para garantir a organização, manutenibilidade e a extensibilidade do código, foram aplicados os seguintes padrões de projeto:
+Para garantir a organização, manutenibilidade e a extensibilidade do código, foi aplicado o seguinte padrão de projeto:
 
-### **A. MVC (Model-View-Controller)**
+### **MVC (Model-View-Controller)**
 
 Utilizado para estruturar a arquitetura do software. A lógica de negócios (Controller) está desacoplada da entrada/saída de dados (View). Isso permite que a interface gráfica seja facilmente substituída por outras interfaces (web ou mobile), sem a necessidade de modificar as regras de negócio.
 
