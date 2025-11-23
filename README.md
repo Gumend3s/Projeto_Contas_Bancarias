@@ -67,5 +67,3 @@ O sistema pode ser testado através de sua interface gráfica (via `JOptionPane`
     - O sistema deve **permitir o fechamento** e remover a conta do sistema.
 
 -----
-
-Esse formato está mais alinhado com o exemplo que você forneceu. Se precisar de mais algum ajuste ou modificação, é só avisar!
