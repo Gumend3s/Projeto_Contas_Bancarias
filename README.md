@@ -23,17 +23,9 @@ O sistema foi desenvolvido em Java, utilizando uma arquitetura modular para sepa
 
 Para garantir a organização, manutenibilidade e a extensibilidade do código, foram aplicados os seguintes padrões de projeto:
 
-### **A. MVC (Model-View-Controller)**
+### **MVC (Model-View-Controller)**
 
 Utilizado para estruturar a arquitetura do software. A lógica de negócios (Controller) está desacoplada da entrada/saída de dados (View). Isso permite que a interface gráfica seja facilmente substituída por outras interfaces (web ou mobile), sem a necessidade de modificar as regras de negócio.
-
-### **B. Factory Method (Método Fábrica)**
-
-Aplicado no método **'criarConta'** dentro do Controller. A criação de novos objetos **'Conta'** é centralizada no Controller, garantindo que toda nova conta receba automaticamente um ID único e tenha suas listas internas corretamente inicializadas antes de ser usada.
-
-### **C. Singleton (Gerenciador de Estado Único)**
-
-O Controller atua como um Singleton, implementado de forma simplificada com um atributo estático (`private static List<Conta> contas`). Isso garante que apenas uma lista de contas esteja ativa na memória durante toda a execução do programa, assegurando que todas as operações acessem o mesmo conjunto de dados.
 
 -----
 
